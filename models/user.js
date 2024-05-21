@@ -19,4 +19,61 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+// CRUD operations
+
+// Create a new user
+const createUser = async (userData) => {
+  try {
+    const user = new User(userData);
+    return await user.save();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Get all users
+const getUsers = async () => {
+  try {
+    return await User.find();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Get a user by ID
+const getUserById = async (userId) => {
+  try {
+    return await User.findById(userId);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Update a user by ID
+const updateUser = async (userId, userData) => {
+  try {
+    return await User.findByIdAndUpdate(userId, userData, { new: true });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Delete a user by ID
+const deleteUser = async (userId) => {
+  try {
+    return await User.findByIdAndDelete(userId);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = {
+  User,
+  createUser,
+  getUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

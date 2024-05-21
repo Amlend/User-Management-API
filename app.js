@@ -4,11 +4,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const User = require("./models/user");
+const userRoutes = require("./routes/routes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json({ extended: false }));
+
+//Routes
+app.use(userRoutes);
 
 mongoose
   .connect(
