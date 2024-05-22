@@ -27,3 +27,7 @@ jobs:
     - run: npm install
     - run: npm start
     - run: npx jest
+
+    env:
+      USERNAME: amlend
+      PASSWORD: riverdale
