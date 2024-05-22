@@ -1,5 +1,22 @@
 const mongoose = require("mongoose");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ */
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
