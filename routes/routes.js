@@ -5,32 +5,34 @@ const userController = require("../controllers/userController");
 
 /**
  * @swagger
- * tags:
- *   name: Users
- *   description: API endpoints for managing users
- */
-
-/**
- * @swagger
  * /add:
  *   post:
- *     summary: Create a new user
- *     tags: [Users]
+ *     summary: Register a new user
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '../models/user'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The name of the new user
+ *               email:
+ *                 type: string
+ *                 description: The email of the new user
+ *               age:
+ *                 type: integer
+ *                 description: The age of the new user
  *     responses:
- *       201:
- *         description: Created
+ *       '201':
+ *         description: User created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '../models/user'
- *       400:
- *         description: Bad request
+ *               type: object
+ *       '400':
+ *         description: Bad request (e.g., invalid data in request body)
  */
 router.post("/add", userController.postUser);
 
@@ -38,27 +40,43 @@ router.post("/add", userController.postUser);
  * @swagger
  * /update/{id}:
  *   put:
- *     summary: Update a user by ID
- *     tags: [Users]
+ *     summary: Update a user
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         schema:
- *           type: string
+ *         type: string
+ *         description: The ID of the user to update
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '../models/User'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The updated name of the user
+ *               email:
+ *                 type: string
+ *                 description: The updated email of the user
+ *               age:
+ *                 type: integer
+ *                 description: The updated age of the user
  *     responses:
  *       '200':
- *         description: Updated
+ *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '../models/User'
+ *               type: object
+ *               properties:
+ *       '400':
+ *         description: Bad request (e.g., invalid data in request body or user not found)
+ *       '404':
+ *         description: User not found
  */
 router.put("/update/:id", userController.putUser);
 
@@ -66,17 +84,24 @@ router.put("/update/:id", userController.putUser);
  * @swagger
  * /delete/{id}:
  *   delete:
- *     summary: Delete a user by ID
- *     tags: [Users]
+ *     summary: Delete a user
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         schema:
- *           type: string
+ *         type: string
+ *         description: The ID of the user to delete
  *     responses:
  *       '200':
- *         description: Deleted
+ *         description: User deleted successfully
+ *       '400':
+ *         description: Bad request (e.g., invalid user ID)
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
  */
 router.delete("/delete/:id", userController.deleteUser);
 
@@ -85,38 +110,48 @@ router.delete("/delete/:id", userController.deleteUser);
  * /get/{id}:
  *   get:
  *     summary: Get a user by ID
- *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         schema:
- *           type: string
+ *         type: string
+ *         description: The ID of the user to retrieve
  *     responses:
  *       '200':
- *         description: Successful response
+ *         description: User retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '../models/User'
+ *               type: object
+ *       '400':
+ *         description: Bad request (e.g., invalid user ID)
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
  */
 router.get("/get/:id", userController.getUser);
 
 /**
  * @swagger
- * /get:
+ * /users:
  *   get:
  *     summary: Get all users
- *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       '200':
- *         description: Successful response
+ *         description: List of all users
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '../models/User'
+ *                 type: object
+ *       '500':
+ *         description: Internal server error
  */
 router.get("/get", userController.getAllUsers);
 
